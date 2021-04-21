@@ -1,3 +1,4 @@
+require 'pry'
 class Node
   include Comparable
 
@@ -44,5 +45,23 @@ class Tree
       level_order_arr.push curent_node.data
     end
     level_order_arr
+  end
+
+  def preorder(root = @root)
+    return [] unless root
+
+    [root.data] + preorder(root.left) + preorder(root.right)
+  end
+
+  def inorder(root = @root)
+    return [] unless root
+
+    inorder(root.left) + [root.data] + inorder(root.right)
+  end
+
+  def postorder(root = @root)
+    return [] unless root
+
+    postorder(root.left) + postorder(root.right) + [root.data]
   end
 end

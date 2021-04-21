@@ -32,4 +32,16 @@ class Tree
 
     Node.new(data, build_tree(left_subtree), build_tree(right_subtree))
   end
+
+  def level_order
+    queue = [@root]
+    level_order_arr = []
+    until queue.empty?
+      queue.push queue[0].left if queue[0].left
+      queue.push queue[0].right if queue[0].right
+      level_order_arr.push queue[0].data
+      queue.shift
+    end
+    level_order_arr
+  end
 end

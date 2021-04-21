@@ -34,13 +34,14 @@ class Tree
   end
 
   def level_order
-    queue = [@root]
+    queue = Queue.new
+    queue.enq @root
     level_order_arr = []
     until queue.empty?
-      queue.push queue[0].left if queue[0].left
-      queue.push queue[0].right if queue[0].right
-      level_order_arr.push queue[0].data
-      queue.shift
+      curent_node = queue.deq
+      queue.enq curent_node.left if curent_node.left
+      queue.enq curent_node.right if curent_node.right
+      level_order_arr.push curent_node.data
     end
     level_order_arr
   end

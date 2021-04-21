@@ -64,4 +64,15 @@ class Tree
 
     postorder(root.left) + postorder(root.right) + [root.data]
   end
+
+  def find(value)
+    node = Node.new(value)
+    curent_node = @root
+    while curent_node
+      break if node == curent_node
+
+      curent_node = node > curent_node ? curent_node.right : curent_node.left
+    end
+    curent_node
+  end
 end

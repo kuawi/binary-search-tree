@@ -75,4 +75,33 @@ class Tree
     end
     curent_node
   end
+
+  def depth(node)
+    curent_node = @root
+    depth = 0
+    while curent_node
+      break if node == curent_node
+
+      curent_node = node > curent_node ? curent_node.right : curent_node.left
+      depth += 1
+    end
+    return depth if curent_node
+
+    nil
+  end
+
+  # height is defined as the number of edges in longest path from a given node to a leaf node.
+  def height(node)
+    node = find(node.data)
+    return nil unless node
+
+    queue = Queue.new.enq(@root)
+    until queue.empty?
+      curent_node = queue.deq
+      queue.enq curent_node.left if curent_node.left
+      queue.enq curent_node.right if curent_node.right
+    end
+    leaf = curent_node
+    depth(leaf) - depth(node)
+  end
 end

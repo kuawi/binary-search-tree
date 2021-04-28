@@ -104,4 +104,24 @@ class Tree
     leaf = curent_node
     depth(leaf) - depth(node)
   end
+
+  def to_s
+    string = ''
+    (0..3).each do |level|
+      string += "#{print_level(@root, level)}\n"
+    end
+    string
+  end
+
+  private
+
+  def print_level(root, level)
+    return nil unless root
+    return root.data.to_s if level <= 0
+
+    "#{print_level(root.left, level - 1)} #{print_level(root.right, level - 1)}"
+  end
+
+  def tree_depth 
+  end
 end

@@ -107,7 +107,7 @@ class Tree
 
   def to_s
     string = ''
-    (0..3).each do |level|
+    (0..tree_depth).each do |level|
       string += "#{print_level(@root, level)}\n"
     end
     string
@@ -122,6 +122,13 @@ class Tree
     "#{print_level(root.left, level - 1)} #{print_level(root.right, level - 1)}"
   end
 
-  def tree_depth 
+  def tree_depth(root = @root)
+    return nil unless root
+    return 0 unless root.left || root.right
+
+    left_depth = right_depth = 0
+    left_depth += 1 + tree_depth(root.left) if root.left
+    right_depth += 1 + tree_depth(root.right) if root.right
+    left_depth > right_depth ? left_depth : right_depth
   end
 end

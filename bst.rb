@@ -34,9 +34,9 @@ class Tree
     Node.new(data, build_tree(left_subtree), build_tree(right_subtree))
   end
 
-  def level_order
+  def level_order(root = @root)
     queue = Queue.new
-    queue.enq @root
+    queue.enq root
     level_order_arr = []
     until queue.empty?
       curent_node = queue.deq
@@ -111,6 +111,25 @@ class Tree
       string += "#{print_level(@root, level)}\n"
     end
     string
+  end
+
+  def delete(value)
+    node = Node.new(value)
+    curent_node = @root
+    while curent_node
+      break if node == curent_node
+
+      previous_node = curent_node
+      curent_node = node > curent_node ? curent_node.right : curent_node.left
+    end
+    return unless curent_node
+
+    new_subroot = build_tree(level_order(curent_node)[1..-1].sort.uniq)
+    unless new_subroot
+      curent_node < previous_node ? previous_node.left = nil : previous_node.right = nil
+      return
+    end
+    new_subroot < previous_node ? previous_node.left = new_subroot : previous_node.right = new_subroot
   end
 
   private

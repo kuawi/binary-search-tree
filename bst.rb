@@ -15,7 +15,7 @@ class Node
   end
 end
 
-class Tree
+class Tree # rubocop:todo Metrics/ClassLength
   attr_accessor :root
 
   def initialize(array)
@@ -113,7 +113,7 @@ class Tree
     string
   end
 
-  def delete(value)
+  def delete(value) # rubocop:todo all
     node = Node.new(value)
     curent_node = @root
     while curent_node
@@ -130,6 +130,42 @@ class Tree
       return
     end
     new_subroot < previous_node ? previous_node.left = new_subroot : previous_node.right = new_subroot
+  end
+
+  def insert(value) # rubocop:todo Metrics/MethodLength
+    node = Node.new(value)
+    curent_node = @root
+    while curent_node
+      break if node == curent_node
+
+      right = left = false
+
+      previous_node = curent_node
+      if node > curent_node
+        curent_node = curent_node.right
+        right = true
+      else
+        curent_node = curent_node.left
+        left = true
+      end
+    end
+    previous_node.right = node if right
+    previous_node.left = node if left
+  end
+
+  def balanced?(root = @root)
+    return true unless root
+
+    left_depth = root.left ? tree_depth(root.left) : -1
+    right_depth = root.right ? tree_depth(root.right) : -1
+
+    return false unless (left_depth - right_depth).abs <= 1
+
+    balanced?(root.left) && balanced?(root.right)
+  end
+
+  def rebalance
+    @root = build_tree(level_order(@root).sort.uniq)
   end
 
   private
